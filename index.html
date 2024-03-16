@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>html,body{height:100%;}body{padding:0;margin:0;}h1{padding:0;margin:0;font-size:50%;}</style>
+</head>
+
+<body>
+    <div id="myMap" style='width:60%;height:70%;float:left;'">
+
+    </div>
+    <!--Directions[START]-->
+<div>
+    <input type="text" id="from" value="町田">から
+    <input id="to" value="秦野">まで
+    <select id="mode">
+        <option value="walking">walking</option>
+        <option value="driving">driving</option>
+    </select>
+    で行く
+    <input type="button" id="search" value="ルート検索">
+</div>
+<div id="direction"></div>
+<!-- Directions[END] -->
+
+    <!-- JS -->
+<!-- 1.Load BingMapsControl api [callback=GetMap] -->
+<script src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[]' async defer></script>
+
+<!-- 2.Load BmapQuery -->
+<!-- CDN ( https://cdn.jsdelivr.net/gh/yamazakidaisuke/BmapQuery/js/BmapQuery.js ) -->
+<script src="js/BmapQuery.js"></script>
+
+<!-- 3.BmapQuery Start -->
+<script>
+//Init
+function GetMap(){
+    //------------------------------------------------------------------------
+    //1. Instance
+    //------------------------------------------------------------------------
+    const map = new Bmap("#myMap");
+
+    //------------------------------------------------------------------------
+    //2. geolocation: Display Map
+    //------------------------------------------------------------------------
+    map.geolocation(function(data) {
+        //location
+        const lat = data.coords.latitude;
+        const lon = data.coords.longitude;
+        //Map
+        map.startMap(lat, lon, "load", 10);
+        //pin
+        map.pin(lat,lon,"#ff0000");
+
+    //------------------------------------------------------------------------
+    //3. Directions
+    // map.direction("#rootView", "from" , "to", waypoint[array]);
+    // !! For confirmation, set the parameters for each country !!
+    // +  [ English => https://www.bing.com/...&setLang=en&setMkt=en-US ]
+    // +  [ Japan   => https://www.bing.com/...&setLang=ja&setMkt=ja-JP ]
+    //------------------------------------------------------------------------
+    document.getElementById("search").onclick = function () {
+        //Get From,To
+        const from  = document.getElementById("from").value;  //StartPoint
+        const to    = document.getElementById("to").value;    //EndPoint
+        const mode  = document.getElementById("mode").value;  //RouteMode[walking,driving]
+        map.direction("#direction", mode, from, to, array);   //Direction Methed
+
+    };
+
+    });
+
+}
+</script>
+</body>
+</html>
+    </script>
+    
+</body>
+
+</html>
